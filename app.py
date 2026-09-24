@@ -430,11 +430,11 @@ st.markdown(
 | **Ganzzahlige Kosten** | Die Skalierung mit n + 1 und der Abbruch bei ε = 1 setzen ganze Zahlen voraus; bei gebrochenen Kosten wäre ε < 1/n nötig, mehr Phasen. **Ansatzpunkt:** Skalierung der Kosten vorab. |
 | **Ohne die Heuristiken der Praxis** | Hier läuft nacktes Push-Relabel je Phase. Produktive Löser (OR-Tools `SimpleMinCostFlow`) ergänzen eine globale Preisaktualisierung und Look-Ahead-Regeln und sind dadurch auch auf kleinen Netzen schnell. **Ansatzpunkt:** Heuristiken wie bei Push-Relabel (Gap, Global Relabeling). |
 | **Sequentielle Rechnung** | Push-Relabel ist lokal und parallelisierbar - gezählt wird nacheinander. **Ansatzpunkt:** nicht Thema dieser Linie. |
-| **Ein Gut, teilbar** | Alle Waren sind gleich und beliebig teilbar. Mehrere Güter auf gemeinsamen Kanten machen den Fluss im Allgemeinen gebrochen. **Ansatzpunkt: Mehrgüterfluss** (nächstes Stück der Linie). |
+| **Ein Gut, teilbar** | Alle Waren sind gleich und beliebig teilbar. Mehrere Güter auf gemeinsamen Kanten machen den Fluss im Allgemeinen gebrochen. **Ansatzpunkt: Mehrgüterfluss** (gebaut: multicommodity-demo). |
 | **Keine Zeit** | Ein Fluss ist eine Momentaufnahme; Wartezeiten und Fahrpläne fehlen. **Ansatzpunkt:** Zeit-Raum-Netz in der Demo „leercontainer-demo“. |
 """
 )
-st.caption("Die Netzwerkfluss-Linie ist als Ganzes geplant: Edmonds-Karp, Dinic, Push-Relabel, Successive Shortest Paths, Cycle-Canceling, Cost Scaling (dieses Stück), Mehrgüterfluss, Column Generation, Garg-Könemann, Fixkosten-Netzwerkdesign, Benders-Zerlegung und Slope Scaling - bisher sind die ersten sechs gebaut.")
+st.caption("Die Netzwerkfluss-Linie ist als Ganzes geplant: Edmonds-Karp, Dinic, Push-Relabel, Successive Shortest Paths, Cycle-Canceling, Cost Scaling (dieses Stück), Mehrgüterfluss (gebaut), Column Generation, Garg-Könemann, Fixkosten-Netzwerkdesign, Benders-Zerlegung und Slope Scaling - bisher sind die ersten sieben gebaut.")
 
 st.markdown("---")
 
