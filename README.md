@@ -9,7 +9,7 @@ Es beginnt grob – ε so groß wie die größten (mit n + 1 multiplizierten) Ko
 Am Ende jeder Phase ist der Fluss **zulässig**, bei ε = 1 **kostenminimal**. Das ist das Verfahren hinter OR-Tools `SimpleMinCostFlow` (dort mit Heuristiken). Vehikel wie in den Vorgänger-Demos: ein Distributionsnetz (Werke → Verteilzentren → Filialen) mit Kosten je Einheit, dazu zwei Lehrnetze.
 
 **Einordnung in die Reihe (die Kanten des Graphen):** Konvergenz zweier Äste: Push-Relabel (Überschüsse, Höhen, lokale Pushes) liefert die Bauweise, die ε-Skalierung der Auktion die Idee, grob zu beginnen. Cost Scaling ist von der Menge unabhängig – SSP braucht so viele Runden, wie es Wege gibt.
-Mit ε-Optimalität ist auch der Bezug zu Cycle-Canceling klar: (f, p) ist ε-optimal genau dann, wenn jeder Kreis im Restgraphen einen Mittelwert der Kosten je Kante ≥ −ε hat (Goldberg–Tarjan). Bisher gebaut: die ersten neun Stücke.
+Mit ε-Optimalität ist auch der Bezug zu Cycle-Canceling klar: (f, p) ist ε-optimal genau dann, wenn jeder Kreis im Restgraphen einen Mittelwert der Kosten je Kante ≥ −ε hat (Goldberg–Tarjan). Bisher gebaut: die ersten zehn Stücke.
 ```
 edmonds-karp-demo (Wurzel: Restgraph, Rückkanten, Max-Flow = Min-Cut)                  [gebaut]
   ├─ dinic-demo (viele kürzeste Wege je Phase: Niveaugraph, blockierender Fluss)        [gebaut]
@@ -21,7 +21,9 @@ edmonds-karp-demo (Wurzel: Restgraph, Rückkanten, Max-Flow = Min-Cut)          
        └─ multicommodity-demo (mehrere Güter teilen Kapazität: Kanten-LP, Preise)       [gebaut]
             ├─ mcf-column-generation-demo (Pfade als Spalten, Pricing = Dijkstra)       [gebaut]
             ├─ garg-koenemann-demo (Näherung mit Preisen, ohne LP-Löser)                [gebaut]
-            └─ Fixkosten-Netzwerkdesign → Benders-Zerlegung, Slope Scaling              [geplant]
+            └─ fixkosten-netzdesign-demo (Fixkosten: Schranke und Schnitte)             [gebaut]
+                 ├─ Benders-Zerlegung (Entwurf im Master, Fluss im Teilproblem)         [geplant]
+                 └─ Slope Scaling (Heuristik für große Netze)                           [geplant]
 ```
 
 ## Ergebnis (Zahlen aus den Tests)
