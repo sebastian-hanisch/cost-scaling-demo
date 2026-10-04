@@ -1,6 +1,6 @@
 # Cost Scaling – erst grob, dann fein – Streamlit-Demo
 
-*(noch nicht deployed)*
+**[→ Demo live ausprobieren](https://sebastianhanisch-cost-scaling-demo.streamlit.app/)**
 
 Sechstes Stück der **Netzwerkfluss-Linie** der "Konzepte"-Reihe für die Website "Sebastian Hanisch – Operations Research und Machine Learning", Konvergenz aus [Push-Relabel](https://github.com/sebastian-hanisch/push-relabel-demo) und der ε-Skalierung der Auktion (Demo `auction-algorithm-demo` der Matching-Linie, dort nur für die Zuordnung):
 anders als die Fall-Demos im Portfolio (ein Anwendungsfall, mehrere Verfahren im Vergleich) zeigt diese Demo **ein** Verfahren – **Cost Scaling** (Goldberg und Tarjan 1990) – an einem wachsenden Beispiel.
