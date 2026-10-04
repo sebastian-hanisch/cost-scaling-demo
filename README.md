@@ -9,7 +9,7 @@ Es beginnt grob – ε so groß wie die größten (mit n + 1 multiplizierten) Ko
 Am Ende jeder Phase ist der Fluss **zulässig**, bei ε = 1 **kostenminimal**. Das ist das Verfahren hinter OR-Tools `SimpleMinCostFlow` (dort mit Heuristiken). Vehikel wie in den Vorgänger-Demos: ein Distributionsnetz (Werke → Verteilzentren → Filialen) mit Kosten je Einheit, dazu zwei Lehrnetze.
 
 **Einordnung in die Reihe (die Kanten des Graphen):** Konvergenz zweier Äste: Push-Relabel (Überschüsse, Höhen, lokale Pushes) liefert die Bauweise, die ε-Skalierung der Auktion die Idee, grob zu beginnen. Cost Scaling ist von der Menge unabhängig – SSP braucht so viele Runden, wie es Wege gibt.
-Mit ε-Optimalität ist auch der Bezug zu Cycle-Canceling klar: (f, p) ist ε-optimal genau dann, wenn jeder Kreis im Restgraphen einen Mittelwert der Kosten je Kante ≥ −ε hat (Goldberg–Tarjan). Bisher gebaut: alle zwölf Stücke der Hauptlinie.
+Mit ε-Optimalität ist auch der Bezug zu Cycle-Canceling klar: (f, p) ist ε-optimal genau dann, wenn jeder Kreis im Restgraphen einen Mittelwert der Kosten je Kante ≥ −ε hat (Goldberg–Tarjan). Bisher gebaut: alle dreizehn Stücke der Hauptlinie.
 ```
 edmonds-karp-demo (Wurzel: Restgraph, Rückkanten, Max-Flow = Min-Cut)                  [gebaut]
   ├─ dinic-demo (viele kürzeste Wege je Phase: Niveaugraph, blockierender Fluss)        [gebaut]

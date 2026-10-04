@@ -7,7 +7,7 @@ Jede Restkante mit c_p < 0 heißt zulässig (Push erlaubt).
 Ablauf: Start mit Fluss 0 und Preisen 0 (epsilon_0 = größte skalierte Kosten, so ist der leere Pseudofluss epsilon_0-optimal). Dann Phasen: epsilon <- max(1, ceil(epsilon / alpha)) und **refine**:
 1. alle Restkanten mit c_p < 0 werden gesättigt (der Pseudofluss ist danach 0-optimal, es entstehen Überschüsse),
 2. aktive Knoten (Überschuss > 0) werden entladen: push über zulässige Kanten (Zeigerliste), gibt es keine, wird der Knoten angehoben: p(v) -= min c_p + epsilon (dann hat er eine zulässige Kante mit c_p = -epsilon).
-Am Ende jeder Phase ist der Fluss zulässig und epsilon-optimal; bei epsilon = 1 (skalierte Kosten) ist er kostenminimal. Zwischenphasen sind Näherungen: die Mehrkosten sind höchstens n * epsilon / (n+1) in Originaleinheiten.
+Am Ende jeder Phase ist der Fluss zulässig und epsilon-optimal; bei epsilon = 1 (skalierte Kosten) ist er kostenminimal. Zwischenphasen sind Näherungen: epsilon-Optimalität beschränkt den Mittelwert der Kosten je Kante auf jedem Kreis des Restgraphen (>= -epsilon / (n+1) in Originaleinheiten), nicht die absoluten Mehrkosten des Flusses (eine Schranke n * epsilon gilt nicht).
 
 Restkanten wie in den Vorgänger-Demos: Kante 2i ist die Vorwärtskante der Netzkante i (Rest = Kapazität - Fluss, Kosten c), Kante 2i+1 die Rückkante (Rest = Fluss, Kosten -c).
 Ein Knoten ist aktiv, sobald sein Überschuss positiv ist - auch T, wenn zu viel Fluss dort ankommt (T startet mit Überschuss -F und darf nie über 0 bleiben).
