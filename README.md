@@ -73,7 +73,7 @@ Vor dem Schreiben der Texte wurde über die 100 Netze gemessen; einige Vermutung
 - **Phase (refine):** ε ← max(1, ⌈ε/α⌉); alle Restkanten mit c_p < 0 sättigen; solange ein Knoten mit e > 0 existiert (Warteschlange oder kleinster Index): push über zulässige Kanten (c_p < 0, Zeigerliste), sonst relabel p(v) −= min c_p + ε. ε₀ ist die größte skalierte Kostenzahl (der leere Fluss ist dafür ε₀-optimal).
 - **Warum ε = 1 genügt:** ein Kreis im Restgraphen hat höchstens n Kanten, also Kosten ≥ −n·ε; mit Kosten mal n + 1 wäre ein negativer Kreis mindestens −(n + 1).
 - **Toleranz t:** anhalten nach der ersten Phase mit ε ≤ (n + 1)·t – kein Kreis spart dann mehr als t je Kante.
-- **Aufwand:** durchsuchte Kanten (jede in einer Adjazenzliste angesehene Restkante, auch beim Sättigen und Anheben), nie Sekunden. Kein Price Update und keine Look-Ahead-Regeln – die Heuristiken produktiver Löser fehlen.
+- **Aufwand:** durchsuchte Kanten (jede in einer Adjazenzliste angesehene Restkante, auch beim Sättigen und beim Preissenken), nie Sekunden. Kein Price Update und keine Look-Ahead-Regeln – die Heuristiken produktiver Löser fehlen.
 - **Laufzeit:** O(n³ log(nC)) (FIFO), unabhängig vom Flusswert.
 
 ## Dateien
@@ -109,3 +109,7 @@ venv\Scripts\python -m pytest tests -v
 
 Die Logik rechnet ausschließlich mit ganzen Zahlen; die im Text genannten Anteile und Mediane sind deshalb auf jeder Plattform identisch.
 Die CI (`.github/workflows/tests.yml`) läuft auf Ubuntu mit Python 3.12, bei jedem Push und wöchentlich mit den jeweils neuesten Bibliotheksversionen.
+
+---
+
+Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). Mehr zur Reihe: [Netzwerkfluss: vom Max-Flow zum Netzdesign](https://sebastianhanisch.net/konzepte-netzwerkfluss.html).

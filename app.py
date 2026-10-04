@@ -74,8 +74,8 @@ st.title("🪜 Cost Scaling – erst grob, dann fein")
 st.markdown(
     """
 **Successive Shortest Paths** beweist den billigsten Fluss Weg für Weg, **Cycle-Canceling** Kreis für Kreis - beide verlangen zu jedem Zeitpunkt etwas Exaktes. **Cost Scaling** lockert das: jeder Knoten hat einen **Preis** $p$, und es genügt, dass keine Restkante *mehr* als $\\varepsilon$ zu billig ist ($c_p\\ge-\\varepsilon$, **$\\varepsilon$-Optimalität**).
-Es beginnt grob - $\\varepsilon$ so groß wie die größten Kosten - und teilt $\\varepsilon$ in **Phasen** durch $\\alpha$. Jede Phase ist ein **Push-Relabel** wie im dritten Stück, nur auf den reduzierten Kosten: Kanten mit negativen reduzierten Kosten werden gesättigt, die Überschüsse wandern lokal über zulässige Kanten, ein Knoten ohne zulässige Kante hebt seinen Preis.
-Am Ende jeder Phase ist der Fluss **zulässig**; bei $\\varepsilon<1$ (Kosten mit $n+1$ multipliziert) ist er **kostenminimal**. Diese Demo zeigt die Phasen und Entladungen, wie gut die Zwischenflüsse schon sind - und ab welcher Netzgröße das Verfahren SSP schlägt: es ist das Verfahren hinter OR-Tools `SimpleMinCostFlow`.
+Es beginnt grob - $\\varepsilon$ so groß wie die größten Kosten - und teilt $\\varepsilon$ in **Phasen** durch $\\alpha$. Jede Phase ist ein **Push-Relabel** wie im dritten Stück, nur auf den reduzierten Kosten: Kanten mit negativen reduzierten Kosten werden gesättigt, die Überschüsse wandern lokal über zulässige Kanten, ein Knoten ohne zulässige Kante senkt seinen Preis.
+Am Ende jeder Phase ist der Fluss **zulässig**; bei $\\varepsilon=1$ (Kosten mit $n+1$ multipliziert) ist er **kostenminimal**. Diese Demo zeigt die Phasen und Entladungen, wie gut die Zwischenflüsse schon sind - und ab welcher Netzgröße das Verfahren SSP schlägt: es ist das Verfahren hinter OR-Tools `SimpleMinCostFlow`.
 """
 )
 st.caption(
@@ -88,7 +88,7 @@ with st.expander("So funktioniert Cost Scaling", expanded=True):
         r"""
 1. **Modell:** Angebot $F$ in S, Nachfrage $F$ in T ($F$ = größter Fluss), Kosten mit $n+1$ multipliziert. Ein *Pseudofluss* darf Überschüsse $e(v)$ haben; Preise $p(v)$ starten bei 0. Reduzierte Kosten $c_p(u,v)=c(u,v)+p(u)-p(v)$.
 2. **$\varepsilon$-optimal:** $c_p\ge-\varepsilon$ auf allen Restkanten. Der leere Fluss ist es für $\varepsilon_0=$ größte Kosten. Eine Restkante mit $c_p<0$ heißt **zulässig** - nur über sie wird geschoben.
-3. **Phase (refine):** $\varepsilon\leftarrow\lceil\varepsilon/\alpha\rceil$. Erst alle zulässigen Restkanten **sättigen** (danach ist alles 0-optimal, es entstehen Überschüsse). Dann **entladen**: ein Knoten mit Überschuss schiebt über zulässige Kanten; hat er keine mehr, **hebt** er sich an: $p(v)\leftarrow p(v)-(\min c_p+\varepsilon)$.
+3. **Phase (refine):** $\varepsilon\leftarrow\lceil\varepsilon/\alpha\rceil$. Erst alle zulässigen Restkanten **sättigen** (danach ist alles 0-optimal, es entstehen Überschüsse). Dann **entladen**: ein Knoten mit Überschuss schiebt über zulässige Kanten; hat er keine mehr, **senkt** er seinen Preis: $p(v)\leftarrow p(v)-(\min c_p+\varepsilon)$.
 4. **Ende der Phase:** kein Überschuss mehr - der Fluss ist zulässig und $\varepsilon$-optimal, aber noch nicht billigst.
 5. **Warum das am Ende genügt:** jeder Kreis im Restgraphen hat höchstens $n$ Kanten, also Kosten $\ge -n\varepsilon$; bei $\varepsilon=1$ und Kosten mal $n+1$ wäre ein negativer Kreis mindestens $-(n+1)$ - den gibt es nicht. Nach $\lceil\log_\alpha \varepsilon_0\rceil$ Phasen ist der Fluss kostenminimal.
 6. **Toleranz:** wer nur **fast** optimal braucht, hält früher an - dann spart kein Kreis im Restgraphen mehr als $\varepsilon/(n+1)$ je Kante.
@@ -292,7 +292,7 @@ st.markdown("---")
 # --- Kernfrage ---------------------------------------------------------------------------------------------------------------------------------
 
 st.markdown("## 🎯 Vom groben zum feinen Fluss")
-st.caption("**Phasen** = wie oft ε durch α geteilt wird; **Entladungen** = wie oft ein Knoten geleert wird (Pushes und, wenn nötig, Relabels); **durchsuchte Kanten** = Aufwand (jede in einer Adjazenzliste angesehene Restkante, auch beim Sättigen und Anheben), nie Sekunden. Zum Vergleich: SSP baut denselben Fluss in Runden auf.")
+st.caption("**Phasen** = wie oft ε durch α geteilt wird; **Entladungen** = wie oft ein Knoten geleert wird (Pushes und, wenn nötig, Relabels); **durchsuchte Kanten** = Aufwand (jede in einer Adjazenzliste angesehene Restkante, auch beim Sättigen und beim Preissenken), nie Sekunden. Zum Vergleich: SSP baut denselben Fluss in Runden auf.")
 m1, m2, m3, m4 = st.columns(4)
 if net.logistic:
     m1.metric("Menge", f"{dat['value']} von {dat['demand']}", delta=f"{_pct(dat['share'])} der Nachfrage", delta_color="off", help="Die Menge F ist der größte Fluss des Netzes; Cost Scaling ändert sie nicht.")
@@ -455,7 +455,7 @@ with st.expander("📐 Mathematische Formulierung"):
 
 **$\varepsilon$-Optimalität.** $(f,p)$ ist $\varepsilon$-optimal, wenn $c_p(v,w)\ge-\varepsilon$ für jede Restkante $(v,w)$. Das ist äquivalent dazu, dass jeder Kreis des Restgraphen einen Mittelwert der Kosten je Kante $\ge-\varepsilon$ hat (Bezug zu Minimum-Mean-Cycle-Canceling).
 
-**Satz.** Ist $f$ zulässig und $\varepsilon$-optimal mit $\varepsilon<1$ bei ganzzahligen Kosten $c'$ (Vielfache von $n+1$) und $n$-Kanten-Kreisen, so ist $f$ kostenminimal: ein negativer Kreis hätte Kosten $\le-(n+1)$, aber $\ge-n\varepsilon>-(n+1)$.
+**Satz.** Ist $f$ zulässig und $\varepsilon$-optimal mit $\varepsilon\le 1$ bei ganzzahligen Kosten $c'$ (Vielfache von $n+1$) und $n$-Kanten-Kreisen, so ist $f$ kostenminimal: ein negativer Kreis hätte Kosten $\le-(n+1)$, aber $\ge-n\varepsilon>-(n+1)$.
 
 **Refine.** Gegeben ein $2\varepsilon$-optimales $(f,p)$: (1) setze $f_e\leftarrow u_e$ für alle Restkanten mit $c_p<0$ (danach $0$-optimal, Überschüsse); (2) solange ein Knoten mit $e_f(v)>0$ existiert: **push** über eine zulässige Kante $c_p<0$ ($\delta=\min(e_f(v),r)$), oder **relabel** $p(v)\leftarrow p(v)-(\min_{(v,w)}c_p+\varepsilon)$, wenn keine zulässige Kante existiert. Beide erhalten $\varepsilon$-Optimalität; am Ende ist $f$ zulässig.
 
@@ -471,6 +471,6 @@ st.markdown("---")
 
 st.caption(
     "Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – "
-    "Operations Research und Machine Learning. Interesse an einer maßgeschneiderten Lösung für "
-    "Ihr Unternehmen? [Kontakt aufnehmen](https://sebastianhanisch.net/kontakt.html)"
+    "Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). "
+    "Mehr zur Reihe: [Netzwerkfluss: vom Max-Flow zum Netzdesign](https://sebastianhanisch.net/konzepte-netzwerkfluss.html)."
 )
