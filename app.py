@@ -442,7 +442,7 @@ st.markdown(
 | **Keine Zeit** | Ein Fluss ist eine Momentaufnahme; Wartezeiten und Fahrpläne fehlen. **Ansatzpunkt:** Zeit-Raum-Netz in der Demo „leercontainer-demo“. |
 """
 )
-st.caption("Die Netzwerkfluss-Linie ist als Ganzes geplant: Edmonds-Karp, Dinic, Push-Relabel, Successive Shortest Paths, Cycle-Canceling, Cost Scaling (dieses Stück), Netzwerksimplex (gebaut), Mehrgüterfluss (gebaut), Column Generation (gebaut), Garg-Könemann (gebaut), Fixkosten-Netzwerkdesign (gebaut), Benders-Zerlegung (gebaut) und Slope Scaling (gebaut) - bisher sind alle dreizehn Stücke der Hauptlinie gebaut.")
+st.caption("Die Netzwerkfluss-Linie besteht aus Edmonds-Karp, Dinic, Push-Relabel, Successive Shortest Paths, Cycle-Canceling, Cost Scaling (dieses Stück), Netzwerksimplex, Mehrgüterfluss, Column Generation, Garg-Könemann, Fixkosten-Netzwerkdesign, Benders-Zerlegung und Slope Scaling (die dreizehn Stücke der Hauptlinie) sowie den Erweiterungen Projektauswahl, Graph Cuts, Gomory-Hu-Baum, Frank-Wolfe, Gradient Projection und Fluss über die Zeit; alle sind gebaut.")
 
 st.markdown("---")
 
